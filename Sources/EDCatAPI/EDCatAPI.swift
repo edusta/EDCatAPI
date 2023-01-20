@@ -23,6 +23,19 @@ public class EDCatAPI {
     }
 
     public func getRandomImage() async throws -> UIImage {
+        let randomImageResponse = try await fetchRandomImageResponse()
+        return try await loadImage(from: randomImageResponse)
+    }
+
+    public func getRandomImageURL() async throws -> URL {
+        let randomImageResponse = try await fetchRandomImageResponse()
+        guard let url = URL(string: randomImageResponse.url) else { throw EDCatAPIError.invalidData }
+        return url
+    }
+}
+
+private extension EDCatAPI {
+    func fetchRandomImageResponse() async throws -> EDCatImageResponseData {
         let requestData = EDCatRequestData(apiKey: apiKey)
         let request = EDCatRequest(endpoint: .imageSearch, requestData: requestData)
         let result: Result<[EDCatImageResponseData], EDNetworkError> = await network.sendRequest(request)
@@ -30,14 +43,12 @@ public class EDCatAPI {
         switch result {
         case let .success(images):
             guard let firstImageResponse = images.first else { throw EDCatAPIError.noData }
-            return try await loadImage(from: firstImageResponse)
+            return firstImageResponse
         case let .failure(error):
             throw EDCatAPIError.network(error)
         }
     }
-}
 
-private extension EDCatAPI {
     func loadImage(from response: EDCatImageResponseData) async throws -> UIImage {
         let request = EDCatImageRequest(url: response.url)
         let result = await network.sendRequest(request)
