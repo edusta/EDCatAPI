@@ -19,6 +19,15 @@
       }
     },
     {
+      "identity" : "ednetwork",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/edusta/EDNetwork",
+      "state" : {
+        "revision" : "6ab24cd116baf8e1a5d75d81fe0ef415d34f2644",
+        "version" : "0.1.1"
+      }
+    },
+    {
       "identity" : "nimble",
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/Quick/Nimble.git",

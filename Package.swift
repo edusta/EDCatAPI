@@ -14,7 +14,7 @@ let package = Package(
     ],
     dependencies: [
         // Dependencies declare other packages that this package depends on.
-        .package(path: "../EDNetwork"),
+        .package(url: "https://github.com/edusta/EDNetwork", exact: Version(0, 1, 1)),
         .package(url: "https://github.com/Quick/Nimble.git",
                  .upToNextMajor(from: Version(11, 2, 1))),
     ],
